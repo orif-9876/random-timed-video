@@ -13,19 +13,10 @@ Consider using this in combination with the pomodoro technique, where you can pl
 
 1. Edit `play.py` to configure
    ```python
-   WORK_SECONDS = 3 * 60
-   PLAY_SECONDS = 1 * 60
+   WORK_SECONDS = 3 * 60  #  time between breaks
+   PLAY_SECONDS = 1 * 60  #  how long each break is
 
-   filenames = [
-       "/path/to/your/video1.mp4",
-       "/path/to/another/video.mp4",
-   ]
-   ```
-   If you want to add entire directories using wildcards, you can use
-   ```python
-   from glob import glob
-   
-   filenames += list(glob("/path/to/folder/*.mp4"))
+   root_dir = r"path/to/videos"  #  recursively find all videos in this folder and its subfolders
    ```
    
 2. Run `python play.py` to start
