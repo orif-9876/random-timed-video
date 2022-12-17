@@ -55,4 +55,4 @@ while True:
         RunCommand(args, PLAY_SECONDS).Run()
     except sub.TimeoutExpired:
         pass
-    time.sleep(PLAY_SECONDS)
+    time.sleep(WORK_SECONDS)
