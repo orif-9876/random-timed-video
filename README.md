@@ -10,7 +10,7 @@ Plays a random video using mpv at a random timestamp at a regular interval, and 
 ## Configuration
 
 1. Edit `play.py` to configure
-   ```
+   ```python
    WORK_SECONDS = 3 * 60
    PLAY_SECONDS = 1 * 60
 
