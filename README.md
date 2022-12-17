@@ -21,4 +21,11 @@ Consider using this in combination with the pomodoro technique, where you can pl
        "/path/to/another/video.mp4",
    ]
    ```
+   If you want to add entire directories using wildcards, you can use
+   ```python
+   from glob import glob
+   
+   filenames += list(glob("/path/to/folder/*.mp4"))
+   ```
+   
 2. Run `python play.py` to start
