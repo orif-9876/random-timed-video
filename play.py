@@ -11,6 +11,11 @@ filenames = [
     "/path/to/another/video.mp4",
 ]
 
+# optional, if you want to add entire directories using wildcards
+#
+# from glob import glob
+# filenames += list(glob("/path/to/files/*.mp4"))
+
 
 class RunCommand(threading.Thread):
     """Run command and terminate after timeout seconds"""
