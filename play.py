@@ -1,3 +1,4 @@
+import os
 import time
 import subprocess as sub
 import threading
@@ -6,15 +7,25 @@ import random
 WORK_SECONDS = 3 * 60
 PLAY_SECONDS = 1 * 60
 
-filenames = [
-    "/path/to/your/video1.mp4",
-    "/path/to/another/video.mp4",
-]
+root_dir = r"/path/to/videos/"
 
-# optional, if you want to add entire directories using wildcards
-#
-# from glob import glob
-# filenames += list(glob("/path/to/files/*.mp4"))
+# if installed using a package manager
+FFPROBE_EXEC = "ffprobe"
+MPV_EXEC = "mpv" 
+
+# otherwise specify absolute path to the executables
+# FFPROBE_EXEC = r"C:\Program Files\ffmpeg\bin\ffprobe.exe"
+# MPV_EXEC = r"C:\Program Files\mpv\mpv.exe" 
+
+# recursively walk through file system starting at root_dir
+# and add absolute paths to all video files to `filenames` list
+filenames = []
+for root, dirs, files in os.walk(os.path.abspath(root_dir)):
+    for file in files:
+        if any(file.endswith(ext) for ext in {".mp4", ".mkv", ".webm", ".mov"}):
+            filename = os.path.join(root, file)
+            filenames.append(filename)
+            print(filename)
 
 
 class RunCommand(threading.Thread):
@@ -40,7 +51,7 @@ class RunCommand(threading.Thread):
 
 def get_length(filename):
     """get length of video in seconds"""
-    result = sub.run(["ffprobe", "-v", "error", "-show_entries",
+    result = sub.run([FFPROBE_EXEC, "-v", "error", "-show_entries",
                       "format=duration", "-of",
                       "default=noprint_wrappers=1:nokey=1", filename],
                      stdout=sub.PIPE,
@@ -55,7 +66,7 @@ while True:
         # choose random start time, set to 0 if start at beginning
         start = random.randint(10, int(get_length(filename)))
         # run mpv in fullscreen mode for PLAY_SECONDS
-        args = ["mpv", "--loop-file=inf", "--fullscreen",
+        args = [MPV_EXEC, "--loop-file=inf", "--fullscreen",
                 f"--start={start // 60}:{start - (start // 60) * 60}", filename]
         RunCommand(args, PLAY_SECONDS).Run()
     except sub.TimeoutExpired:
