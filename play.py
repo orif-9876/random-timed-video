@@ -1,4 +1,5 @@
 import os
+import traceback
 import time
 import subprocess as sub
 import threading
@@ -69,6 +70,6 @@ while True:
         args = [MPV_EXEC, "--loop-file=inf", "--fullscreen",
                 f"--start={start // 60}:{start - (start // 60) * 60}", filename]
         RunCommand(args, PLAY_SECONDS).Run()
-    except sub.TimeoutExpired:
-        pass
+    except Exception as e:
+        traceback.print_exc()
     time.sleep(WORK_SECONDS)
